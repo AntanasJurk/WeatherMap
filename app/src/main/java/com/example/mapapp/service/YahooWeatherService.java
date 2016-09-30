@@ -1,7 +1,9 @@
 package com.example.mapapp.service;
 import android.net.Uri;
 import android.os.AsyncTask;
+
 import com.example.mapapp.data.Channel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;

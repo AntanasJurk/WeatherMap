@@ -1,6 +1,5 @@
 package com.example.mapapp;
 
-import android.app.ProgressDialog;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -55,7 +54,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(vilnius)
                 .title("Vilnius"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(kaunas));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(vilnius));
     }
 
     @Override

@@ -21,10 +21,6 @@ public class YahooWeatherService {
     private String location;
     private Exception error;
 
-    public YahooWeatherService(WeatherServiceCallback callback) {
-        this.callback = callback;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -99,4 +95,9 @@ public class YahooWeatherService {
             super(detailMessage);
         }
     }
+
+    public YahooWeatherService(WeatherServiceCallback callback) {
+        this.callback = callback;
+    }
+
 }

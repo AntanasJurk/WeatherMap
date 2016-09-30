@@ -7,8 +7,15 @@ import org.json.JSONObject;
  */
 
 public class Condition implements JSONPopulator {
+
+    private String temp;
+
     @Override
     public void populate(JSONObject data) {
+        temp=data.optString("temp");
+    }
 
+    public String getTemp() {
+        return temp;
     }
 }

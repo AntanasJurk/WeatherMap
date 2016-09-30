@@ -1,8 +1,15 @@
 package com.example.mapapp;
 
+import android.app.ProgressDialog;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.mapapp.data.Channel;
+import com.example.mapapp.data.Item;
+import com.example.mapapp.service.WeatherServiceCallback;
+import com.example.mapapp.service.YahooWeatherService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -10,9 +17,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, WeatherServiceCallback {
 
-    private GoogleMap mMap;
+    public GoogleMap mMap;
+    private YahooWeatherService service;
+    private TextView temperatureTextView;
+    private TextView locationTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,32 +33,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        service = new YahooWeatherService(this);
+
+        service.refreshWeather("Vilnius");
+        locationTextView = (TextView) findViewById(R.id.locationTextView);
+        temperatureTextView = (TextView) findViewById(R.id.temperatureTextView);
+
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        LatLng vilnius = new LatLng(64.499474, -165.405792);
+        LatLng kaunas = new LatLng(54.8985, 23.9036);
+        LatLng vilnius = new LatLng(54.6872, 25.2797);
         mMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
+                .position(kaunas)
+                .title("Kaunas"));
         mMap.addMarker(new MarkerOptions()
                 .position(vilnius)
-                .title("Marker in Vilniusss"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                .title("Vilnius"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(kaunas));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(vilnius));
+    }
+
+    @Override
+    public void serviceSuccess(Channel channel) {
+        Item item = channel.getItem();
+
+        locationTextView.setText(service.getLocation());
+        temperatureTextView.setText(item.getCondition().getTemp());
+
+    }
+
+    @Override
+    public void serviceFailure(Exception exception) {
+        Toast.makeText(this, exception.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

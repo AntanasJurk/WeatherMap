@@ -1,6 +1,5 @@
 package com.example.mapapp
 
-import android.content.Intent
 import android.support.v4.app.FragmentActivity
 import android.os.Bundle
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -9,7 +8,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 
 class MapsActivity3 : FragmentActivity(), OnMapReadyCallback {
